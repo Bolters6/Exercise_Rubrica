@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+    <table>
+        <thead>
+            <tr>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Numero</th>
+            <th>Email</th>
+            <th>Azzione</th>
+            </tr>
+        </thead>
+       <tbody id="tablebody"></tbody> 
+    </table>
+    <button onClick="console.log(rubrica)"> Rubrica </button>
+    <script>
+
+        var rubrica = [];
+
+        function Contatto(name, lastname, num, email){
+            this.name = name;
+            this.lastname = lastname;
+            this.num = num;
+            this.email = email;
+        };
+
+        contatto1 = new Contatto("Mario", "Pontillo", "1234567", "mariopontillo@gmail.com");
+        contatto2 = new Contatto("Pedro", "Perez", "342353", "pedrito@hotmail.com");
+        contatto3 = new Contatto("Daniele", "Rossi", "128742309", "derossi@outlook.com");
+        contatto4 = new Contatto("Michele", "Ladda", "12871239", "michelino@outlook.com");
+        rubrica.push(contatto1);
+        add(contatto1); add(contatto2); add(contatto3); add(contatto4);
+        console.log(get("Pedro"));
+        console.log("/////////////////////////////");
+        update(contatto2);
+        update(contatto1);
+        console.log(rubrica);
+   
+        findAll();
+
+        console.log(rubrica);
+
+        function add(contatto){
+            
+            var verifica = rubrica.findIndex(element => element == contatto);
+            if(verifica < 0 ){
+                rubrica.push(contatto);
+                return console.log("Contatto Salvato");
+            }
+            return console.log("Contatto Esistente");
+        };
+
+        function rimuovi(elemento){
+        var nome = elemento.children[0].innerHTML;
+           rubrica = rubrica.filter(element => {
+               if(element.name != nome){
+                   return element;
+               }
+           });
+           elemento.remove();
+        };
+
+        function get(nome){
+            const presi = rubrica.map(element => {
+                if(element.name == nome){
+                    return element;
+                }
+                return null;
+            });
+            if(presi.length > 0 ){
+            return presi.filter(element => element != null);
+            }
+            return "Non Ci Sono Contatti con Quel Nome"
+        };
+        
+        function update(contatto){
+            const verifica = rubrica.findIndex(element => element == contatto);
+            if(verifica < 0 ){
+                return console.log("Contatto Non Esiste")
+            }
+            rubrica[rubrica.indexOf(contatto)] = contatto;
+                return console.log("Contatto Salvato");
+        };
+    function findAll(){
+    for(let i = 0; i < rubrica.length; i++){
+    document.getElementById("tablebody").appendChild(document.createElement("tr"));
+    document.getElementsByTagName("tr")[i + 1].appendChild(document.createElement("td"));
+    document.getElementsByTagName("tr")[i + 1].appendChild(document.createElement("td"));
+    document.getElementsByTagName("tr")[i + 1].appendChild(document.createElement("td"));
+    document.getElementsByTagName("tr")[i + 1].appendChild(document.createElement("td"));
+    document.getElementsByTagName("tr")[i + 1].appendChild(document.createElement("td"));
+    document.getElementsByTagName("td")[(i * 5) + 0].innerHTML = rubrica[i].name;
+    document.getElementsByTagName("td")[(i * 5) + 1].innerHTML = rubrica[i].lastname;
+    document.getElementsByTagName("td")[(i * 5) + 2].innerHTML = rubrica[i].num;
+    document.getElementsByTagName("td")[(i * 5) + 3].innerHTML = rubrica[i].email;
+    document.getElementsByTagName("td")[(i * 5) + 4].appendChild(document.createElement("button"));
+    document.getElementsByTagName("button")[i].innerHTML = "Elimina"; 
+    document.getElementsByTagName("button")[i].setAttribute("onClick", "rimuovi(this.parentElement.parentElement)");
+};
+    }
+   </script>
+</html>
